@@ -2,40 +2,40 @@
 #include "dll.c"
 
 int main() {
-    DLL list;
+    DLL L1;
 
-    init_DLL(&list);
+    init_DLL(&L1);
 
-    insert_beg(&list, 2);
-    insert_beg(&list, 10);
-    insert_beg(&list, -16);
+    insert_beg(&L1, 2);
+    insert_beg(&L1, 10);
+    insert_beg(&L1, -16);
     
-    insert_end(&list, 2);
-    insert_end(&list, 15);
-    insert_end(&list, 100);
+    insert_end(&L1, 2);
+    insert_end(&L1, 15);
+    insert_end(&L1, 100);
     
-    displayLR(list);
+    displayLR(L1);
 
-    insert_pos(&list, 2, 1000);
+    insert_pos(&L1, 2, 1000);
 
-    displayRL(list);
+    displayRL(L1);
 
-    if(is_palindrome(list))
+    if(is_palindrome(L1))
         printf("The list is a palindrome\n");
     else
         printf("The list is not a palindrome\n");
 
-    remove_beg(&list);
+    remove_beg(&L1);
     
-    displayLR(list);
+    displayLR(L1);
 
-    remove_end(&list);
+    remove_end(&L1);
 
-    displayRL(list);
+    displayRL(L1);
 
-    remove_pos(&list, 1);
+    remove_pos(&L1, 1);
 
-    displayLR(list);
+    displayLR(L1);
 
     return 0;
 }

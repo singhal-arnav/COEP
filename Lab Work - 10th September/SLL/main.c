@@ -1,25 +1,25 @@
 #include "SLL.c"
 
 int main() {
-    SLL list;
+    SLL L1;
 
-    init_SLL(&list);
+    init_SLL(&L1);
 
-    append(&list, 3);
-    append(&list, 5);
-    append(&list, 20);
+    append(&L1, 3);
+    append(&L1, 5);
+    append(&L1, 20);
 
     printf("Contents of list:\n");
-    traverse(list);
+    traverse(L1);
 
-    insert_at_beg(&list, 10);
+    insert_at_beg(&L1, 10);
     
-    remove_at_pos(&list, 2);
+    remove_at_pos(&L1, 2);
 
     printf("New contents of list:\n");
-    traverse(list);
+    traverse(L1);
     
-    printf("Length of the list = %d\n", len(list));
+    printf("Length of the list = %d\n", len(L1));
 
     return 0;
 }
