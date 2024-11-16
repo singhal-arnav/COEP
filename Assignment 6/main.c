@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
 #include "heap.h"
@@ -40,10 +41,11 @@ int main(int argc, char **argv){
 	}
 	
 	close(fd);
-
+	
+	printf("Contents of heap: ");
 	print_heap(h1);
+	printf("Sorted in ascending order: ");
 	heap_sort(&h1);
-	print_heap(h1);
 
 	return 0;
 }
