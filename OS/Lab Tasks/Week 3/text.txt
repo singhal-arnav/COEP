@@ -1,0 +1,1 @@
+This line will be written inside a file instead of being displayed in the terminal

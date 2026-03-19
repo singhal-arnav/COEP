@@ -1,0 +1,6 @@
+welcome to c programming
+hello world
+operating systems is fun
+i am a student
+my name is arnav singhal
+the name "arnav" means "ocean" in sanskrit

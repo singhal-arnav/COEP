@@ -1,0 +1,85 @@
+diff --git a/kalloc.c b/kalloc.c
+index 14cd4f4..5f86d1e 100644
+--- a/kalloc.c
++++ b/kalloc.c
+@@ -14,13 +14,15 @@ extern char end[]; // first address after kernel loaded from ELF file
+                    // defined by the kernel linker script in kernel.ld
+ 
+ struct run {
+-  struct run *next;
++  void* pages[MAX_PAGES];
++  int front;
++  int rear;
+ };
+ 
+ struct {
+   struct spinlock lock;
+   int use_lock;
+-  struct run *freelist;
++  struct run freequeue;
+ } kmem;
+ 
+ // Initialization happens in two phases.
+@@ -33,6 +35,10 @@ kinit1(void *vstart, void *vend)
+ {
+   initlock(&kmem.lock, "kmem");
+   kmem.use_lock = 0;
++
++  kmem.freequeue.front = 0;
++  kmem.freequeue.rear = 0;
++
+   freerange(vstart, vend);
+ }
+ 
+@@ -59,7 +65,7 @@ freerange(void *vstart, void *vend)
+ void
+ kfree(char *v)
+ {
+-  struct run *r;
++  void *r;
+ 
+   if((uint)v % PGSIZE || v < end || V2P(v) >= PHYSTOP)
+     panic("kfree");
+@@ -69,9 +75,10 @@ kfree(char *v)
+ 
+   if(kmem.use_lock)
+     acquire(&kmem.lock);
+-  r = (struct run*)v;
+-  r->next = kmem.freelist;
+-  kmem.freelist = r;
++  r = (void*)v;
++  kmem.freequeue.pages[kmem.freequeue.rear] = r;
++  kmem.freequeue.rear = (kmem.freequeue.rear + 1) % MAX_PAGES;
++
+   if(kmem.use_lock)
+     release(&kmem.lock);
+ }
+@@ -82,13 +89,14 @@ kfree(char *v)
+ char*
+ kalloc(void)
+ {
+-  struct run *r;
++  void *r = 0;
+ 
+   if(kmem.use_lock)
+     acquire(&kmem.lock);
+-  r = kmem.freelist;
+-  if(r)
+-    kmem.freelist = r->next;
++  if(kmem.freequeue.front != kmem.freequeue.rear) {
++    r = kmem.freequeue.pages[kmem.freequeue.front];
++    kmem.freequeue.front = (kmem.freequeue.front + 1) % MAX_PAGES;
++  }
+   if(kmem.use_lock)
+     release(&kmem.lock);
+   return (char*)r;
+diff --git a/memlayout.h b/memlayout.h
+index d1615f7..3940a3a 100644
+--- a/memlayout.h
++++ b/memlayout.h
+@@ -13,3 +13,5 @@
+ 
+ #define V2P_WO(x) ((x) - KERNBASE)    // same as V2P, but without casts
+ #define P2V_WO(x) ((x) + KERNBASE)    // same as P2V, but without casts
++
++#define MAX_PAGES ((PHYSTOP - EXTMEM) / PGSIZE)	// Maximum possible number of free pages

@@ -1,0 +1,127 @@
+*** ../a/arch/x86/entry/syscalls/syscall_64.tbl	2022-01-16 13:41:15.000000000 +0530
+--- arch/x86/entry/syscalls/syscall_64.tbl	2025-08-18 20:45:46.408574441 +0530
+***************
+*** 371,376 ****
+--- 371,378 ----
+  447	common	memfd_secret		sys_memfd_secret
+  448	common	process_mrelease	sys_process_mrelease
+  449	common	futex_waitv		sys_futex_waitv
++ 450	common	hello			sys_hello
++ 451	common	pid_ancestry		sys_pid_ancestry
+  
+  #
+  # Due to a historical design error, certain syscalls are numbered differently
+*** ../a/include/linux/syscalls.h	2022-01-16 13:41:15.000000000 +0530
+--- include/linux/syscalls.h	2025-08-18 20:44:58.880533871 +0530
+***************
+*** 1386,1389 ****
+--- 1386,1391 ----
+  		int __user *optlen);
+  int __sys_setsockopt(int fd, int level, int optname, char __user *optval,
+  		int optlen);
++ asmlinkage long sys_hello(void);
++ asmlinkage long sys_pid_ancestry(int pid);
+  #endif
+*** /dev/null	2025-08-20 20:32:38.038681967 +0530
+--- hello/hello.c	2025-08-17 23:57:15.990938910 +0530
+***************
+*** 0 ****
+--- 1,9 ----
++ #include <linux/kernel.h>
++ #include <linux/syscalls.h>
++ 
++ SYSCALL_DEFINE0(hello)
++ 
++ {
++ 	printk("Hello from inside the Linux kernel\n");
++ 	return 0;
++ }
+*** /dev/null	2025-08-20 20:32:38.038681967 +0530
+--- pid_ancestry/pid_ancestry.c	2025-08-18 20:41:06.657019457 +0530
+***************
+*** 0 ****
+--- 1,33 ----
++ #include <linux/kernel.h>
++ #include <linux/syscalls.h>
++ #include <linux/sched.h>
++ #include <linux/pid.h>
++ #include <linux/sched/task.h>
++ 
++ SYSCALL_DEFINE1(pid_ancestry, int, pid) {
++ 	struct task_struct *task;
++ 	struct pid *pid_struct;
++ 	
++ 	pid_struct = find_get_pid(pid);
++ 	if(!pid_struct) {
++ 		printk("PID %d not found\n", pid);
++ 		return -ESRCH;
++ 	}
++ 	
++ 	task = pid_task(pid_struct, PIDTYPE_PID);
++ 	if(!task) {
++ 		printk("Task struct not found for PID %d\n", pid);
++ 		return -ESRCH;
++ 	}
++ 	
++ 	printk("Ancestry of PID %d:\n", pid);
++ 	
++ 	while(task->pid != 1) {
++ 		pid = task->pid;
++ 		task = task->real_parent;
++ 		printk("Parent of PID %d: %d\n", pid, task->pid);
++ 	}
++ 	printk("PID 1 (init) was created by the kernel\n");
++ 	
++ 	return 0;
++ }
+*** /dev/null	2025-08-20 20:32:38.038681967 +0530
+--- "Assignment 4/syscalls_test.c"	2025-08-20 21:38:57.796275893 +0530
+***************
+*** 0 ****
+--- 1,46 ----
++ #include <stdio.h>
++ #include <stdlib.h>
++ #include <unistd.h>
++ #include <sys/syscall.h>
++ #include <sys/types.h>
++ #include <errno.h>
++ 
++ #define __NR_hello 450
++ #define __NR_pid_ancestry 451
++ 
++ int main(int argc, char *argv[]) {
++ 	int pid = atoi(argv[1]);
++ 	long ret;
++ 	
++ 	asm (
++ 		"movl %[num1], %%eax\n"
++ 		"syscall\n"
++ 		"movq %%rax, %[ret]\n"
++ 		:[ret] "=r" (ret)
++ 		:[num1] "r" (__NR_hello)
++ 		:"rax","rcx","r11"
++ 	);
++ 	
++ 	if(ret == 0)
++ 		printf("hello syscall executed successfully for PID %d.\n", pid);
++ 	else
++ 		perror("hello syscall failed\n");
++ 	
++ 	asm (
++ 		"movl %[num2], %%eax\n"
++ 		"movl %[pid], %%edi\n"
++ 		"syscall\n"
++ 		"movq %%rax, %[ret]\n"
++ 		:[ret] "=r" (ret)
++ 		:[num2] "r" (__NR_pid_ancestry),
++ 		 [pid] "r" (pid)
++ 		:"rax","rdi","rsi","rcx","r11","memory"
++ 	);
++ 	
++ 	if(ret == 0)
++ 		printf("pid_ancestry syscall executed successfully for PID %d.\n", pid);
++ 	else
++ 		perror("pid_ancestry syscall failed\n");
++ 	
++ 	return 0;
++ }
