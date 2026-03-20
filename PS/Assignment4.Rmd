@@ -1,0 +1,142 @@
+---
+title: "Assignment 4"
+subtitle: "612203012"
+output:
+  pdf_document: default
+  html_notebook: default
+header-includes:
+  \usepackage{fvextra}
+  \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+---
+\fontfamily{cmr}
+\fontsize{13}{23}
+\fontseries{b}
+\selectfont
+
+\
+
+# Q1
+
+```{r}
+n = 12
+p = 0.4
+pbinom(3, n, p) #P(X<=3)
+1 - pbinom(7, n, p) #P(X>=8)
+pbinom(6, n, p) - pbinom(3, n, p) #P(4<=X<=6)
+dbinom(6, n, p) #P(X=6)
+```
+
+\
+
+# Q2
+
+```{r}
+exp_val = 4
+var = 8/3
+p = 1 - var/exp_val
+n = exp_val/p
+pbinom(4, n, p) #P[X<=4]
+1 - pbinom(2, n, p) #P[X>=3]
+rbinom(5, as.integer(n), p) #Sample
+```
+
+\newpage
+
+# Q3
+
+```{r}
+p = 0.01
+n = 200
+lambda = n * p
+1 - ppois(1, lambda) #Probability that there are at least two defectives
+```
+
+\
+
+# Q4
+
+```{r}
+n = 8
+p = 0.3
+k = 0:8
+k[as.numeric(substring(as.character(pbinom(k, n, p)), 1, 6)) == 0.2552] #Required value of k
+```
+
+\
+
+# Q5
+
+```{r}
+rpois(8, 2.5) #Sample
+```
+
+\
+
+# Q6
+
+```{r}
+p = 0.001
+n = 2000
+lambda = n * p
+1 - ppois(1, lambda) #Required probability
+```
+
+\
+
+# Q7
+
+```{r}
+p = 0.005
+n = 400
+lambda = n * p
+dpois(1, lambda) #Prob that there will be an accident on one day
+ppois(3, lambda) #Prob that there are at most 3 days with accidents
+```
+
+\
+
+# Q8
+
+```{r}
+n = 420
+die1 = rep(1:6, each = 6)
+die2 = rep(1:6, 6)
+totals = die1 + die2
+p = sum(totals == 8)/length(die1)
+lambda = n * p
+ppois(50, lambda) #Prob that total of 8 occurs at least 50 times
+ppois(70, lambda) - ppois(49, lambda) #Between 70 and 90 times inclusive
+dpois(100, lambda) #Exactly 100 times
+```
+
+\
+
+# Q9
+
+```{r}
+p = 0.4
+n = 100
+pbinom(29, n, p) #Prob that fewer than 30 survive
+```
+
+\
+
+# Q10
+
+```{r}
+mu = 20
+sd = 2
+pnorm(2, mu, sd) #P[X<=2]
+pnorm(4, mu, sd) #P[X<4]
+1 - pnorm(7, mu, sd) #P[X>7]
+dnorm(3, mu, sd) #P[X=3]
+```
+
+\
+
+# Q11
+
+```{r}
+pexp(1, 0.1) #P[X<=1]
+rexp(5, 0.1) #Sample
+```

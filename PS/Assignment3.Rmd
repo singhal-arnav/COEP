@@ -1,0 +1,162 @@
+---
+title: "Assignment 3"
+subtitle: "612203012"
+output:
+  pdf_document: default
+  html_notebook: default
+header-includes:
+  \usepackage{fvextra}
+  \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+---
+\fontfamily{cmr}
+\fontsize{13}{23}
+\fontseries{b}
+\selectfont
+
+\
+
+# Q1:
+
+```{r}
+v = c(2.3, 4.4, 5, 5, 6, 6.5, 6.5, 6.5, 6.5, 8.6, 9.2, 4.4, 4.4, 5.4, 5, 2, 4.4)
+mean(v) #Mean
+median(v) #Median
+t = table(v)
+m = names(t)[which(t > 1 & t == max(t))]
+m #Mode
+max(v) #Maximum
+min(v) #Minimum
+max(v) - min(v) #Range
+```
+
+\newpage
+
+# Q2:
+
+```{r, R.options=list(max.print=1000), comment = ""}
+s = seq(1, 100, 0.01)
+s
+```
+```{r}
+length(s) #length
+mean(s) #mean
+median(s) #median
+t = table(s)
+m = names(t)[which(t > 1 & t == max(t))]
+m #mode: character(0) [mode is undefined as all values are unique]
+quantile(s, 0.25) #Lower quartile
+quantile(s, 0.75) #Upper quartile
+quantile(s, 0.8) #80th percentile
+```
+
+\newpage
+
+# Q3:
+
+```{r, comment = "##"}
+v1 = c(2.3, 5.4, 3.3, 4.2, 4.2, 7.9, 4.2, 9.8)
+v2 = c(4.3, 6.4, 8.3, 6.2, 6.2, 6.9, 6.2, 8.8)
+var1 = var(v1)
+var1 #Variance of dataset v1
+std1 = sqrt(var1)
+std1 #Std deviation of dataset v1
+var2 = var(v2)
+var2 #Variance of dataset v2
+std2 = sqrt(var2)
+std2 #Std deviation of dataset v2
+```
+
+\newpage
+
+# Q4:
+
+```{r}
+ages = c(19, 15, 27, 28, 14, 9, 30, 29, 20, 25)
+mean(ages) #mean
+```
+
+\newpage
+
+# Q5:
+
+```{r}
+n = c(10, 7, 12, 8, 11, 10, 8, 6, 9, 10)
+freq = table(n)
+m = names(freq)[which(freq > 1 & freq == max(freq))]
+m #mode
+```
+
+\newpage
+
+# Q6:
+
+```{r}
+obs = c(23, 22, 30, 25, 21, 32, 26, 37, 40, 30, 29)
+median(obs) #median
+```
+
+\newpage
+
+# Q7:
+
+```{r}
+data(CO2)
+up = CO2$uptake
+mean(up) #mean
+median(up) #median
+t = table(up)
+m = names(t)[which(t > 1 & t == max(t))]
+m #mode
+quantile(up, 1) #10th decile
+quantile(up, 0.3) #30th percentile
+qd = as.numeric(quantile(up, 0.75) - quantile(up, 0.25))
+qd #Quartile deviation
+```
+
+\newpage
+
+# Q8:
+
+```{r}
+Month = 0:8
+Persons = c(25, 46, 91, 162, 110, 95, 82, 26, 13)
+df = data.frame(Month, Persons)
+mean(df$Persons) #mean
+median(df$Persons) #median
+```
+
+\newpage
+
+# Q9:
+
+```{r}
+wages = c(350, 320, 410, 360, 520, 290, 300, 305, 260, 310)
+r = max(wages) - min(wages)
+r #Range
+coeff = r / (max(wages) + min(wages))
+coeff #Coefficient of range
+qd = as.numeric(quantile(wages, 0.75) - quantile(wages, 0.25))
+qd #Quartile deviation
+v = var(wages)
+v #Variance
+std = sqrt(v)
+std #Standard deviation
+```
+
+\newpage
+
+# Q10:
+
+```{r}
+x = 1:5
+f = c(7, 11, 9, 8, 3)
+d = rep(x, f)
+mean(d) #mean
+median(d) #median
+t = table(d)
+mode = names(t)[which(t > 1 & t == max(t))]
+mode #mode = 2
+quantile(d, probs = 0.75) #Upper quartile
+quantile(d, probs = 0.7) #Seventh decile
+quantile(d, probs = 0.29) #29th percentile
+```

@@ -1,0 +1,164 @@
+---
+title: "Assignment 1"
+subtitle: "612203012"
+output:
+  pdf_document: default
+  html_notebook: default
+header-includes:
+  \usepackage{fvextra}
+  \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+---
+\fontfamily{cmr}
+\fontsize{13}{23}
+\fontseries{b}
+\selectfont
+
+\
+
+# Q1
+Install given packages
+
+```{r}
+install.packages(c('plyr', 'MASS', 'ggplot2', 'dplyr'), repos = "https://cran.icts.res.in/")
+```
+
+\newpage
+
+# Q2
+Find answers to log2(2*\*5) and log(exp(1)*exp(1))
+
+```{r}
+log2(2^5)
+log(exp(1)*exp(1))
+```
+
+\newpage
+
+# Q3
+Implement functions using built-in dataset
+
+```{r}
+data(iris) #loading the dataset
+iris
+summary(iris)
+class(iris)
+typeof(iris)
+head(iris)
+tail(iris)
+str(iris)
+species_habitat = data.frame(Species = c("setosa", "versicolor", "virginica"), Habitat = c("Woodland", "Meadow", "Mountain"))
+species_habitat
+merged_dataset = merge(iris, species_habitat, by = "Species")
+merged_dataset
+```
+
+\newpage
+
+# Q4
+Create a two-dimensional 5×3 array of sequence of even integers > 50
+
+```{r}
+v = seq(52, 80, 2)
+a = array(v, dim = c(5,3))
+a
+```
+\
+
+# Q5
+Create a vector which contains 10 integer values between -50 and +50
+
+
+```{r}
+vec = seq(-45, 45, 10)
+vec
+```
+
+\newpage
+
+# Q6
+Suppose age is a vector containing ages of 10 persons. Solve the given questions.
+
+```{r}
+#(a) Access the age of fourth person
+age = c(22, 27, 31, 41, 30, 25, 19, 20, 23, 35)
+age
+age[4] 
+
+#(b) Vector with age>30
+age30 = age[age > 30] 
+age30
+
+#(c) Ages of last 3 persons
+age[8:10] 
+
+#(d) No of elements in vector age
+length(age)
+
+#(e) Ages of persons except 5th and 7th
+age[c(-5, -7)]
+
+#(f) Vector with ages between 20 and 25
+age2 = age[age > 20 & age < 25]
+age2
+```
+\
+
+# Q7
+Create factor from given data and find levels
+
+```{r}
+f = factor(c(1,2,3,2,3,1,4,2,3,NA,5,3,2))
+f
+levels(f)
+```
+
+\newpage
+
+# Q8
+List containing strings, numbers, vectors and logical values
+
+```{r}
+l = list(15L, 2.5, 9.3, 10L, "probability", FALSE, "Statistics", c(1,2,3), seq(1, 10, 3), TRUE)
+l
+```
+\
+
+# Q9
+Using built-in dataset iris, find out categorical variables
+
+```{r}
+library(dplyr)
+names(select_if(iris, is.factor))
+```
+
+\
+
+# Q10
+Create a numeric vector c(1:5) and a 5 by 3 matrix with elements from 1 to 15
+
+```{r}
+n = c(1:5)
+n
+```
+
+\
+
+# Q11
+Create a dataframe of the given dataset and solve the questions
+
+```{r}
+df = data.frame(height = c(140,137,150,147,139,140,150,132,138,140), weight = c(55,57,59,62,61,60,60,58,59,57))
+df #Required dataframe
+
+#(a) Vector h1 with height > 145 cm
+h1 = df$height[df$height>145]
+h1
+
+#(b) Vector h2 with weight > 55 kg
+h2 = df$height[df$weight>55]
+h2
+
+#(c) Vector h3 with height > 140 and weight > 60
+h3 = df$height[df$height>140 & df$weight>60]
+h3
+```
