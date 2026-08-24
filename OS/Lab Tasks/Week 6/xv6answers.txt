@@ -1,0 +1,36 @@
+1. 
+a) Generate 32-bit x86 code
+b) Compiler optimization level 2
+c) Use static linking
+
+2. List of object files that need to linked together in order to build the kernel.
+
+3. The Makefile has a rule which runs a program called mkfs to create fs.img. "mkfs" stands for make file system. It takes a list of user programs and builds a virtual file system on the disk image (xv6.img). It is a Linux program.
+
+4. make first looks up the rule for the target and checks its dependencies. If a dependency itself is a target (has a rule specified for it), make checks and builds it first. In this manner, make recursively checks dependencies and builds targets using a bottom-up approach.
+
+5. "make clean" removes all the intermediate and target files generated after running the make command so that the project can be rebuilt from scratch. 
+	make clean deletes object files (*.o), dependency files (*.d), the kernel ELF file (kernel), the disk image (xv6.img), the bootloader (bootblock) and compiled user programs.
+
+6. 
+7.
+8.
+9.
+10.
+11.
+12.
+13.
+14.
+15.
+16.
+17.
+18.
+19.
+20.
+21.
+22.
+23.
+24.
+25.
+26.
+27.

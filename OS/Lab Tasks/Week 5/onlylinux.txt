@@ -1,0 +1,3 @@
+1) echo "hello" | grep h
+2) ls -l | grep h
+3) echo "operating systems is fun" | cat | grep "operating systems"

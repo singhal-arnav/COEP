@@ -1,0 +1,5 @@
+Line 79: CFLAGS = -> Compiler options used for building kernel and user programs
+line 96: dd if=kernel -> Copies the compiled kernel ELF into the disk image at the right offset using dd
+line 148: _%: -> Pattern rule to build user programs into executables that run on xv6
+line 159: mkfs -> Creates the xv6 file system image fs.img
+line 224: qemu -> Target to run xv6 inside the QEMU emulator

@@ -1,0 +1,1 @@
+hello() in hello_test.c -> hello in usys.S -> int 64 in usys.S -> vector64 in vectors.S -> alltraps in trapasm.S -> trap() in trap.c -> syscall() in syscall.c -> sys_hello() in sysproc.c

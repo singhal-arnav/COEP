@@ -1,0 +1,3 @@
+1. Linux has glibc wrappers like syscall() which takes the sycall number as argument (which is later mapped through a table), or open(), close(), etc. but on xv6, there is no such wrapper present and we just have to call, let's say sys_hello(), which in turn will use the trap handler code to call and execute the sycall.
+2. Upon failure, Linux system calls return -1 and assign the appropriate error code to the global variable errno. xv6 system calls on the other hand simply return -1. They do not have a global variable indicating the type of error that has occurred.
+3. xv6 syscalls are minimal. They support fewer arguments/options as compared to Linux syscalls.

@@ -1,0 +1,3 @@
+sed -n "N{p;q;}" filename
+grep -Fxv -f file2.txt file1.txt
+grep -o 'href="[^\"]*"' index.html | cut -d'"' -f2
